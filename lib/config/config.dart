@@ -1,0 +1,17 @@
+final String appTitle = 'causewell';
+final String appLogo = 'assets/images/facebook-logo.svg';
+const String defaultLang = 'en';
+const List<String> locales = ['en', 'es', 'fr'];
+final String logo = 'assets/images/logo.png';
+final String searchIcon = 'assets/images/search-icon.svg';
+final String coursesIcon = 'assets/images/books.svg';
+final String favoritesIcon = 'assets/images/noun_Heart_4154332.svg';
+final String learnIcon = 'assets/images/noun_Light Bulb_1176.svg';
+final String performanceIcon = 'assets/images/noun_graduation_818870 1.svg';
+final String quizzesIcon = 'assets/images/noun_quiz_36445.svg';
+final String surveyIcon = 'assets/images/noun_Survey_4089280.svg';
+final String exercicesIcon = 'assets/images/noun_stationery_4146571.svg';
+final String chatIcon = 'assets/images/noun_chat_4137481.svg';
+final String settingsIcon = 'assets/images/noun_Gears_796230.svg';
+final String defaultAvatar = 'assets/images/default-avatar.png';
+final String instructorProfile = 'assets/images/instructor-profile.png';

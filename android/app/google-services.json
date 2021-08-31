@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "162399212955",
+    "project_id": "causewell",
+    "storage_bucket": "causewell.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162399212955:android:2d85a16bbaef4956dd7d3e",
+        "android_client_info": {
+          "package_name": "com.kordspace.causewell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162399212955-82nq7qv0id8b7rfocjins8pci237e6l4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ5kUYgJix1_OfiOJGTOt2_Dazkirnc1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162399212955-82nq7qv0id8b7rfocjins8pci237e6l4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

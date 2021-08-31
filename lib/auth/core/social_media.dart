@@ -1,0 +1,4 @@
+enum SocialMedia {
+  google,
+  facebook,
+}
