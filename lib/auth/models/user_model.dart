@@ -4,6 +4,7 @@ class UserModel {
   String id;
   String email;
   String avatar;
+  String userType;
   String location;
   String photoURL;
   String displayName;
@@ -15,11 +16,13 @@ class UserModel {
     this.avatar,
     this.location,
     this.photoURL,
+    this.userType,
   });
 
   Map<String, String> toJson() => {
         'id': id,
         'email': email,
+        'userType': userType,
         'displayName': displayName,
       };
 
@@ -34,6 +37,7 @@ class UserModel {
       json['displayName'],
       avatar: json['avatar'],
       location: json['location'],
+      userType: json['userType'],
       photoURL: json['photoURL'],
     );
   }

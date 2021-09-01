@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:device_info/device_info.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -132,6 +133,8 @@ void main() async {
   if (Platform.isIOS) iosInfo = await DeviceInfoPlugin().iosInfo;
   PushNotificationsManager().init();
   appDocDir = await getApplicationDocumentsDirectory();
+  // ADDED
+  await Firebase.initializeApp();
   runZoned(() async {
     var container = await AppInjector.create();
 

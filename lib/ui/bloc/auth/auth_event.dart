@@ -2,7 +2,8 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class AuthEvent {}
-class DeomAuthEvent extends AuthEvent{}
+
+class DeomAuthEvent extends AuthEvent {}
 
 class LoginEvent extends AuthEvent {
   final String login;
@@ -15,9 +16,11 @@ class RegisterEvent extends AuthEvent {
   final String login;
   final String email;
   final String password;
+  final String userType;
 
-  RegisterEvent(this.login, this.email, this.password);
+  RegisterEvent(this.userType, this.login, this.email, this.password);
 }
 
 class CloseDialogEvent extends AuthEvent {}
+
 class DemoAuthEvent extends AuthEvent {}

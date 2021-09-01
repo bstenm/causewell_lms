@@ -3,7 +3,7 @@
   "auth_sign_in_tab": "SIGN IN",
   "login_label_text": "Login",
   "login_registration_helper_text": "Create a username...",
-  "login_sign_in_helper_text": "Enter your username",
+  "login_sign_in_helper_text": "Enter your email address",
   "login_empty_error_text": "Enter login",
   "email_label_text": "Email",
   "email_helper_text": "Enter your Email...",

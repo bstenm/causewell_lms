@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:causewell/ui/widgets/select_user_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inject/inject.dart';
@@ -115,6 +116,7 @@ class _SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<_SignUpPage> {
+  String _type = 'student';
   AuthBloc _bloc;
   final _formKey = GlobalKey<FormState>();
 
@@ -129,6 +131,12 @@ class _SignUpPageState extends State<_SignUpPage> {
     _bloc = BlocProvider.of<AuthBloc>(context);
     passwordVisible = true;
     super.initState();
+  }
+
+  void _handleUserTypeChanged(type) {
+    setState(() {
+      _type = type;
+    });
   }
 
   @override
@@ -227,19 +235,24 @@ class _SignUpPageState extends State<_SignUpPage> {
                   },
                 ),
               ),
-              //   Padding(
-              //     padding:
-              //         const EdgeInsets.only(left: 18.0, right: 18.0, top: 18.0),
-              //     child: new MaterialButton(
-              //       minWidth: double.infinity,
-              //       color: mainColor,
-              //       onPressed: register,
-              //       child: setUpButtonChild(enableInputs),
-              //       textColor: Colors.white,
-              //     ),
-              //   ),
+              SelectUserType(
+                type: _type,
+                onChanged: _handleUserTypeChanged,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.only(left: 18.0, right: 18.0, top: 18.0),
+                child: new MaterialButton(
+                  minWidth: double.infinity,
+                  color: mainColor,
+                  onPressed: register,
+                  child: setUpButtonChild(enableInputs),
+                  textColor: Colors.white,
+                ),
+              ),
               Visibility(
-                visible: demoEnabled,
+                // visible: demoEnabled,
+                visible: false,
                 child: Padding(
                   padding:
                       const EdgeInsets.only(left: 18.0, right: 18.0, top: 18.0),
@@ -308,7 +321,7 @@ class _SignUpPageState extends State<_SignUpPage> {
   Widget setUpButtonChildDemo(enable) {
     if (enable == true) {
       return new Text(
-        localizations.getLocalization("registration_button"),
+        localizations.getLocalization("registration_demo_button"),
         textScaleFactor: 1.0,
       );
     } else {
@@ -324,8 +337,12 @@ class _SignUpPageState extends State<_SignUpPage> {
 
   void register() {
     if (_formKey.currentState.validate()) {
-      _bloc.add(RegisterEvent(_loginController.text, _emailController.text,
-          _passwordController.text));
+      _bloc.add(RegisterEvent(
+        _type.toLowerCase(),
+        _loginController.text.trim(),
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      ));
     }
   }
 
@@ -412,8 +429,7 @@ class _SignInPageState extends State<_SignInPage> {
                   decoration: InputDecoration(
                       labelText:
                           localizations.getLocalization("login_label_text"),
-                      helperText: localizations
-                          .getLocalization("login_sign_in_helper_text"),
+                      helperText: "Enter your email address",
                       filled: true),
                   validator: (value) {
                     if (value.isEmpty) {

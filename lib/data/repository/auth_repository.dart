@@ -1,4 +1,9 @@
+import 'package:causewell/auth/core/handle_firebase_auth_error.dart';
+import 'package:causewell/auth/core/handle_unexpected_error.dart';
+import 'package:causewell/auth/models/user_model.dart';
 import 'package:causewell/auth/services/auth_service.dart';
+import 'package:causewell/auth/services/database_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inject/inject.dart';
 import 'package:causewell/data/cache/cache_manager.dart';
 import 'package:causewell/data/models/auth.dart';
@@ -6,9 +11,9 @@ import 'package:causewell/data/network/api_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthRepository {
-  Future authUser(String login, String password);
+  Future authUser(String userType, String login, String password);
 
-  Future register(String login, String email, String password);
+  Future register(String userType, String login, String email, String password);
 
   Future restorePassword(String email);
 
@@ -29,23 +34,46 @@ class AuthRepositoryImpl extends AuthRepository {
   static const tokenKey = "apiToken";
 
   AuthRepositoryImpl(this.provider, this._sharedPreferences);
+// REMOVED
+//   @override
+//   Future authUser(String userType, String email, String password) async {
+//     AuthResponse response = await provider.authUser(login, password);
+//     _saveToken(response.token);
+//   }
 
+// ADDED
   @override
-  Future authUser(String login, String password) async {
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $login, $password');
-    AuthResponse response = await provider.authUser(login, password);
-    // ADDED
-    await loginUser(login, password);
-    _saveToken(response.token);
+  Future authUser(String userType, String email, String password) async {
+    try {
+      final token = await provider.demoAuth();
+      await loginUser(email, password);
+      _saveToken(token);
+    } on FirebaseAuthException catch (e) {
+      handleFirebaseAuthError(e);
+    } catch (e) {
+      handleUnexpectedError(e);
+    }
   }
 
+// REMOVED
+//   @override
+//   Future register(
+//       String userType, String login, String email, String password) async {
+//     AuthResponse response = await provider.signUpUser(login, email, password);
+//     _saveToken(response.token);
+//   }
+
+// ADDED
   @override
-  Future register(String login, String email, String password) async {
-    print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> $email, $password');
-    AuthResponse response = await provider.signUpUser(login, email, password);
-    // ADDED
-    await registerUser(email, password);
-    _saveToken(response.token);
+  Future<void> register(String userType, String displayName, String email,
+      String password) async {
+    final User authUser = await registerUser(email, password);
+    final UserModel authData = UserModel.fromAuthUser(authUser);
+    authData.userType = userType;
+    authData.displayName = displayName;
+    await saveUserToDb(authData.id, authData.toJson());
+    final token = await provider.demoAuth();
+    _saveToken(token);
   }
 
   @override

@@ -37,7 +37,8 @@ Future<User> signInWithFacebook() async {
 }
 
 Future<User> registerUser(String email, String password) async {
-  final UserCredential result = await _auth.createUserWithEmailAndPassword(
+  final UserCredential result =
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
     password: password,
     email: email,
   );

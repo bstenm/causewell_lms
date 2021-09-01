@@ -42,11 +42,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapRegisterEventToState(event) async* {
     yield LoadingAuthState();
     try {
-      await _repository.register(event.login, event.email, event.password);
+      await _repository.register(
+          event.userType, event.login, event.email, event.password);
       yield SuccessAuthState();
     } catch (error, stacktrace) {
-      var errorData = json.decode(error.response.toString());
-      yield* _errorToState(errorData['message']);
+      print('>>>>>>>>>>>>>>>>>>>> $error');
+      //   var errorData = json.decode(error.response.toString());
+      yield* _errorToState(error.toString());
     }
   }
 
@@ -64,12 +66,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapSignInEventToState(event) async* {
     yield LoadingAuthState();
     try {
-      await _repository.authUser(event.login, event.password);
+      await _repository.authUser(event.userType, event.login, event.password);
       yield SuccessAuthState();
     } catch (error, stacktrace) {
-      var errorData = json.decode(error.response.toString());
-
-      yield* _errorToState(errorData['message']);
+      print('>>>>>>>>>>>>>>>>>>>> $error');
+      yield* _errorToState(error.toString());
     }
   }
 }
