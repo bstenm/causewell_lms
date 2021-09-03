@@ -1,10 +1,17 @@
+import 'package:causewell/auth/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../config/config.dart';
 import 'outlined_colored_button.dart';
 import '../screen/main/main_screen.dart';
 
+String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+final String defaultAvatar = 'assets/images/default-avatar.png';
+
 class DrawerMenu extends StatelessWidget {
+  final UserController userController = Get.find<UserController>();
   final Function exploreCallback;
 
   static const routeName = "menuScreen";
@@ -14,6 +21,8 @@ class DrawerMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userData = userController.data;
+
     onTap(index) {
       Navigator.pushReplacementNamed(
         context,
@@ -32,20 +41,20 @@ class DrawerMenu extends StatelessWidget {
             children: <Widget>[
               CircleAvatar(
                 radius: 40,
-                backgroundImage: AssetImage(instructorProfile),
+                backgroundImage: AssetImage(userData.photoURL ?? defaultAvatar),
               ),
               SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Andrea Piker',
+                  Text(capitalize(userData.displayName),
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
                       )),
                   SizedBox(height: 20.0),
                   Text(
-                    'andrea.piker@gmail.com',
+                    userData.email,
                     style: TextStyle(fontSize: 15),
                   ),
                 ],

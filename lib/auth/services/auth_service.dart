@@ -45,12 +45,12 @@ Future<User> registerUser(String email, String password) async {
   return result.user;
 }
 
-Future<String> loginUser(String email, String password) async {
+Future<User> loginUser(String email, String password) async {
   final UserCredential result = await _auth.signInWithEmailAndPassword(
     email: email,
     password: password,
   );
-  return result.user.uid;
+  return result.user;
 }
 
 Future<void> signoutUser() async {

@@ -1,9 +1,11 @@
+import 'package:causewell/auth/controllers/user_controller.dart';
 import 'package:causewell/auth/core/handle_firebase_auth_error.dart';
 import 'package:causewell/auth/core/handle_unexpected_error.dart';
 import 'package:causewell/auth/models/user_model.dart';
 import 'package:causewell/auth/services/auth_service.dart';
 import 'package:causewell/auth/services/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:inject/inject.dart';
 import 'package:causewell/data/cache/cache_manager.dart';
 import 'package:causewell/data/models/auth.dart';
@@ -11,6 +13,8 @@ import 'package:causewell/data/network/api_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthRepository {
+  final userController = Get.find<UserController>();
+
   Future authUser(String userType, String login, String password);
 
   Future register(String userType, String login, String email, String password);
@@ -46,7 +50,8 @@ class AuthRepositoryImpl extends AuthRepository {
   Future authUser(String userType, String email, String password) async {
     try {
       final token = await provider.demoAuth();
-      await loginUser(email, password);
+      final User userData = await loginUser(email, password);
+      userController.data = UserModel.fromAuthUser(userData);
       _saveToken(token);
     } on FirebaseAuthException catch (e) {
       handleFirebaseAuthError(e);
@@ -72,6 +77,7 @@ class AuthRepositoryImpl extends AuthRepository {
     authData.userType = userType;
     authData.displayName = displayName;
     await saveUserToDb(authData.id, authData.toJson());
+    userController.data = authData;
     final token = await provider.demoAuth();
     _saveToken(token);
   }

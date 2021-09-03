@@ -7,6 +7,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:inject/inject.dart';
 import 'package:causewell/data/repository/localization_repository.dart';
@@ -72,6 +73,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'auth/controllers/user_controller.dart';
 import 'data/cache/cache_manager.dart';
 import 'data/push/push_manager.dart';
 import 'di/app_injector.dart';
@@ -113,7 +115,6 @@ Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
 }
 
 Directory appDocDir;
-
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarBrightness: Brightness.light,
@@ -124,6 +125,10 @@ void main() async {
   Crashlytics.instance.enableInDevMode = true;
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   WidgetsFlutterBinding.ensureInitialized();
+  // ADDED
+  print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FIREBASE INITIALISATION');
+  await Firebase.initializeApp();
+  Get.put<UserController>(UserController(), permanent: true);
   localizations = LocalizationRepositoryImpl(await getDefaultLocalization());
   final SharedPreferences _sharedPreferences =
       await SharedPreferences.getInstance();
@@ -133,8 +138,6 @@ void main() async {
   if (Platform.isIOS) iosInfo = await DeviceInfoPlugin().iosInfo;
   PushNotificationsManager().init();
   appDocDir = await getApplicationDocumentsDirectory();
-  // ADDED
-  await Firebase.initializeApp();
   runZoned(() async {
     var container = await AppInjector.create();
 
