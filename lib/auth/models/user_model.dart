@@ -30,7 +30,7 @@ class UserModel {
     return UserModel(null, null, null);
   }
 
-  factory UserModel.fromJson(Map<String, String> json) {
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       json['id'],
       json['email'],

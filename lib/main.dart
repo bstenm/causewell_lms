@@ -121,7 +121,6 @@ void main() async {
     statusBarColor: Colors.grey.withOpacity(0.4), //top bar color
     statusBarIconBrightness: Brightness.light, //top bar icons
   ));
-
   Crashlytics.instance.enableInDevMode = true;
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   WidgetsFlutterBinding.ensureInitialized();

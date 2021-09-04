@@ -51,9 +51,8 @@ class UserController extends GetxController {
   Future<void> onAuthenticated(User authUser) async {
     try {
       final String uid = authUser.uid;
-      final result = await getUserFromDb(uid) as Map<String, String>;
+      final result = await getUserFromDb(uid);
       if (result == null) {
-        debugPrint('>> Saving user to database');
         final UserModel authData = UserModel.fromAuthUser(authUser);
         await saveUserToDb(uid, authData.toJson());
         status = UserStatus.signedIn;

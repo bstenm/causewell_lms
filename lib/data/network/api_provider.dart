@@ -49,9 +49,11 @@ class UserApiProvider {
 
   Future<List<Category>> getCategories() async {
     Response response = await _dio.get(apiEndpoint + "categories/");
-    return (response.data as List).map((value) {
+    final result = (response.data as List).map((value) {
       return Category.fromJson(value);
     }).toList();
+    print('>>>>>>>>>>>>>>>>>>>>> GET CATEGORIES $result}');
+    return result;
   }
 
   Future<AppSettings> getAppSettings() async {
@@ -62,6 +64,7 @@ class UserApiProvider {
   Future<CourcesResponse> getCourses(Map<String, dynamic> params) async {
     Response response =
         await _dio.get(apiEndpoint + "courses/", queryParameters: params);
+    print('>>>>>>>>>>>>>>>>>>>>> GET COURSES ${response.data}');
     return CourcesResponse.fromJson(response.data);
   }
 
@@ -72,6 +75,7 @@ class UserApiProvider {
         headers: {"requirestoken": "true"},
       ),
     );
+    print('>>>>>>>>>>>>>>>>>>>>> GET FAVORITES COURSES ${response.data}');
     return CourcesResponse.fromJson(response.data);
   }
 
@@ -188,6 +192,7 @@ class UserApiProvider {
         options: Options(
           headers: {"requirestoken": "true"},
         ));
+    print('>>>>>>>>>>>>>>>>>>>>> GET USER COURSES ${response.data}');
     return UserCourseResponse.fromJson(response.data);
   }
 
