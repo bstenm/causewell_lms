@@ -32,9 +32,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         layouts.removeWhere((element) => element.enabled == false);
 
         var categories = await _homeRepository.getCategories();
-        var coursesFree = await _coursesRepository.getCourses(sort: Sort.free);
+        var coursesFree = await _coursesRepository.getFreeCourses();
+        // var coursesFree = await _coursesRepository.getCourses(sort: Sort.free);
         var coursesNew =
-            await _coursesRepository.getCourses(sort: Sort.date_low);
+            // await _coursesRepository.getCourses(sort: Sort.date_low);
+            await _coursesRepository.getAllCourses();
         var coursesTrending =
             await _coursesRepository.getCourses(sort: Sort.rating);
 

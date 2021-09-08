@@ -7,6 +7,7 @@ import 'package:causewell/ui/widgets/drawer_menu.dart';
 import 'package:causewell/ui/widgets/loading_error_widget.dart';
 import 'package:causewell/ui/widgets/main_app_bar.dart';
 
+import '../../../data.dart';
 import '../../../main.dart';
 import 'items/categories_item.dart';
 import 'items/new_courses_item.dart';
@@ -42,8 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         appBar: MainAppBar(
-          title: "Courses",
-        ),
+            title: "Courses",
+            retry: LoadingErrorWidget(() {
+              _bloc.add(FetchEvent());
+            })),
         body: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             return _buildBody(context, state);

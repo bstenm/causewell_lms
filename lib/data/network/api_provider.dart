@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:causewell/data/repository/courses_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:inject/inject.dart';
 import 'package:causewell/data/models/AddToCartResponse.dart';
@@ -23,13 +24,18 @@ import 'package:causewell/data/models/course/CourseDetailResponse.dart';
 import 'package:causewell/data/models/curriculum.dart';
 import 'package:causewell/data/models/purchase/UserPlansResponse.dart';
 import 'package:causewell/data/models/user_course.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 @provide
 @singleton
 class UserApiProvider {
+  final List<Map<String, dynamic>> _allCourses = [];
   static const BASE_URL = "https://stylemixthemes.com/masterstudy/academy";
   static const String apiEndpoint = BASE_URL + "/wp-json/ms_lms/v1/";
   final Dio _dio;
+  static final FirebaseFirestore _store = FirebaseFirestore.instance;
+  static final CollectionReference _categories =
+      _store.collection('categories');
 
   UserApiProvider(this._dio);
 
@@ -48,11 +54,17 @@ class UserApiProvider {
   }
 
   Future<List<Category>> getCategories() async {
+    final categories = [];
     Response response = await _dio.get(apiEndpoint + "categories/");
     final result = (response.data as List).map((value) {
       return Category.fromJson(value);
     }).toList();
-    print('>>>>>>>>>>>>>>>>>>>>> GET CATEGORIES $result}');
+    final snapshot = await _categories.get();
+    snapshot.docs.forEach((doc) {
+      categories.add(doc.data());
+    });
+    // print('>>>>>>>>>>>>>>>>>>>>> GET CATEGORIES ${result.toString()}');
+    // print('>>>>>>>>>>>>>>>>>>>>> GET CATEGORIES $categories}');
     return result;
   }
 
@@ -61,10 +73,37 @@ class UserApiProvider {
     return AppSettings.fromJson(response.data);
   }
 
+  Future<List<Map<String, dynamic>>> _getAllRawCourses() async {
+    if (_allCourses.length > 0) return _allCourses;
+    final QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('courses').get();
+    snapshot.docs.forEach((doc) {
+      _allCourses.add(doc.data());
+    });
+    return _allCourses;
+  }
+
+  Future<CourcesResponse> getAllCourses() async {
+    final List<Map<String, dynamic>> data = await _getAllRawCourses();
+    print('>>>>>>>>>>>>>>>>>>>>> GET COURSES  $data');
+    return CourcesResponse.fromJson({"courses": data});
+  }
+
+  Future<CourcesResponse> getFreeCourses() async {
+    final List<Map<String, dynamic>> data = [];
+    final List<Map<String, dynamic>> allData = await _getAllRawCourses();
+    allData.forEach((d) {
+      if (d['price']['free'] == true) {
+        data.add(d);
+      }
+    });
+    print('>>>>>>>>>>>>>>>>>>>>> GET COURSES  $data');
+    return CourcesResponse.fromJson({"courses": data});
+  }
+
   Future<CourcesResponse> getCourses(Map<String, dynamic> params) async {
     Response response =
         await _dio.get(apiEndpoint + "courses/", queryParameters: params);
-    print('>>>>>>>>>>>>>>>>>>>>> GET COURSES ${response.data}');
     return CourcesResponse.fromJson(response.data);
   }
 
@@ -103,10 +142,21 @@ class UserApiProvider {
 
   Future<InstructorsResponse> getInstructors(
       Map<String, dynamic> params) async {
-    Response response =
-        await _dio.get(apiEndpoint + "instructors/", queryParameters: params);
-    return InstructorsResponse.fromJson(response.data);
+    final List<Map<String, dynamic>> instructors = [];
+    final QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('instructors').get();
+    snapshot.docs.forEach((doc) {
+      instructors.add(doc.data());
+    });
+    return InstructorsResponse.fromJson({"data": instructors});
   }
+
+//   Future<InstructorsResponse> getInstructors(
+//       Map<String, dynamic> params) async {
+//     Response response =
+//         await _dio.get(apiEndpoint + "instructors/", queryParameters: params);
+//     return InstructorsResponse.fromJson(response.data);
+//   }
 
   Future<Account> getAccount({int accountId}) async {
     var params;
@@ -167,6 +217,7 @@ class UserApiProvider {
         options: Options(
           headers: {"requirestoken": "true"},
         ));
+    print('>>>>>>>>>>>>>>>>>>>>> GET COURSE ${response.data}');
     return CourseDetailResponse.fromJson(response.data);
   }
 
@@ -175,6 +226,7 @@ class UserApiProvider {
       apiEndpoint + "course_reviews",
       queryParameters: {"id": id},
     );
+    print('>>>>>>>>>>>>>>>>>>>>> GET REVIEWS ${response.data}');
     return ReviewResponse.fromJson(response.data);
   }
 

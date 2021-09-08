@@ -22,6 +22,10 @@ abstract class CoursesRepository {
 
   Future deleteFavoriteCourse(int courseId);
 
+  Future<CourcesResponse> getAllCourses();
+
+  Future<CourcesResponse> getFreeCourses();
+
   Future<CourseDetailResponse> getCourse(int courseId);
 
   Future<PopularSearchesResponse> getPopularSearches();
@@ -33,6 +37,16 @@ class CoursesRepositoryImpl extends CoursesRepository {
   final UserApiProvider _apiProvider;
 
   CoursesRepositoryImpl(this._apiProvider);
+
+  @override
+  Future<CourcesResponse> getAllCourses() {
+    return _apiProvider.getAllCourses();
+  }
+
+  @override
+  Future<CourcesResponse> getFreeCourses() {
+    return _apiProvider.getFreeCourses();
+  }
 
   @override
   Future<CourcesResponse> getCourses(

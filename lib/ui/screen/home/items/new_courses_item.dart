@@ -54,7 +54,6 @@ class NewCoursesWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               var item = courses[index];
               var padding = (index == 0) ? 20.0 : 0.0;
-
               var rating = 0.0;
               var reviews = 0;
               if (item.rating.total != null) {

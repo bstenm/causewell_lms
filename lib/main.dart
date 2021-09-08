@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -74,6 +75,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth/controllers/user_controller.dart';
+import 'data.dart';
 import 'data/cache/cache_manager.dart';
 import 'data/push/push_manager.dart';
 import 'di/app_injector.dart';
@@ -127,6 +129,11 @@ void main() async {
   // ADDED
   print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FIREBASE INITIALISATION');
   await Firebase.initializeApp();
+//   final CollectionReference instructors =
+//       FirebaseFirestore.instance.collection('instructors');
+//   for (var entry in instructorsJson) {
+//     await instructors.add(entry);
+//   }
   Get.put<UserController>(UserController(), permanent: true);
   localizations = LocalizationRepositoryImpl(await getDefaultLocalization());
   final SharedPreferences _sharedPreferences =

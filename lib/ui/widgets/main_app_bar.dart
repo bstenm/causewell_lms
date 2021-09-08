@@ -3,6 +3,7 @@ import 'package:causewell/config/config.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final Widget retry;
 
   @override
   final Size preferredSize;
@@ -10,6 +11,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MainAppBar({
     Key key,
     this.title,
+    this.retry,
   })  : preferredSize = const Size.fromHeight(60.0),
         super(key: key);
 
@@ -22,10 +24,15 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       backgroundColor: Colors.white,
       centerTitle: true,
-      title: Text(
-        title,
-        textScaleFactor: 1.0,
-        style: TextStyle(color: Color(0xFFF1595C)),
+      title: Column(
+        children: <Widget>[
+          Text(
+            title,
+            textScaleFactor: 1.0,
+            style: TextStyle(color: Color(0xFFF1595C)),
+          ),
+          retry != null ? retry : Container(),
+        ],
       ),
       iconTheme: IconThemeData(color: Color(0xFF8AC640)),
     );
