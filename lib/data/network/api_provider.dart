@@ -39,6 +39,14 @@ class UserApiProvider {
 
   UserApiProvider(this._dio);
 
+  Future _saveToFirestore(String name, List<Map<String, dynamic>> json) async {
+    final CollectionReference collection =
+        FirebaseFirestore.instance.collection(name);
+    for (var entry in json) {
+      await collection.add(entry);
+    }
+  }
+
   /// Auth
   Future<AuthResponse> authUser(String login, String password) async {
     Response response = await _dio.post(apiEndpoint + "login",
@@ -54,19 +62,27 @@ class UserApiProvider {
   }
 
   Future<List<Category>> getCategories() async {
-    final categories = [];
-    Response response = await _dio.get(apiEndpoint + "categories/");
-    final result = (response.data as List).map((value) {
-      return Category.fromJson(value);
-    }).toList();
+    final List<Category> categories = [];
     final snapshot = await _categories.get();
     snapshot.docs.forEach((doc) {
-      categories.add(doc.data());
+      final data = doc.data();
+      categories.add(Category.fromJson(data));
     });
-    // print('>>>>>>>>>>>>>>>>>>>>> GET CATEGORIES ${result.toString()}');
-    // print('>>>>>>>>>>>>>>>>>>>>> GET CATEGORIES $categories}');
-    return result;
+    return categories;
   }
+
+//   Future<List<Category>> getCategories() async {
+//     final categories = [];
+//     Response response = await _dio.get(apiEndpoint + "categories/");
+//     final result = (response.data as List).map((value) {
+//       return Category.fromJson(value);
+//     }).toList();
+//     final snapshot = await _categories.get();
+//     snapshot.docs.forEach((doc) {
+//       categories.add(doc.data());
+//     });
+//     return result;
+//   }
 
   Future<AppSettings> getAppSettings() async {
     Response response = await _dio.get(apiEndpoint + "app_settings/");
@@ -85,7 +101,7 @@ class UserApiProvider {
 
   Future<CourcesResponse> getAllCourses() async {
     final List<Map<String, dynamic>> data = await _getAllRawCourses();
-    print('>>>>>>>>>>>>>>>>>>>>> GET COURSES  $data');
+    // print('>>>>>>>>>>>>>>>>>>>>> GET COURSES  $data');
     return CourcesResponse.fromJson({"courses": data});
   }
 
@@ -97,7 +113,7 @@ class UserApiProvider {
         data.add(d);
       }
     });
-    print('>>>>>>>>>>>>>>>>>>>>> GET COURSES  $data');
+    // print('>>>>>>>>>>>>>>>>>>>>> GET FREE COURSES  $data');
     return CourcesResponse.fromJson({"courses": data});
   }
 

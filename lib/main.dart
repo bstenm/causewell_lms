@@ -129,11 +129,6 @@ void main() async {
   // ADDED
   print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FIREBASE INITIALISATION');
   await Firebase.initializeApp();
-//   final CollectionReference instructors =
-//       FirebaseFirestore.instance.collection('instructors');
-//   for (var entry in instructorsJson) {
-//     await instructors.add(entry);
-//   }
   Get.put<UserController>(UserController(), permanent: true);
   localizations = LocalizationRepositoryImpl(await getDefaultLocalization());
   final SharedPreferences _sharedPreferences =

@@ -37,8 +37,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         var coursesNew =
             // await _coursesRepository.getCourses(sort: Sort.date_low);
             await _coursesRepository.getAllCourses();
-        var coursesTrending =
-            await _coursesRepository.getCourses(sort: Sort.rating);
+        var coursesTrending = coursesNew;
+        // await _coursesRepository.getCourses(sort: Sort.rating);
 
         var instructors =
             await _instructorsRepository.getInstructors(InstructorsSort.rating);

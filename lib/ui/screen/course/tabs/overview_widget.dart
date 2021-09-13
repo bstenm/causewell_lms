@@ -121,6 +121,10 @@ class _OverviewWidgetState extends State<OverviewWidget>
   double descriptionHeight;
 
   _buildDescription() {
+    final description =
+        '<!DOCTYPE html>        <html>            <head>                <meta name=\'viewport\' content=\'width=device-width, initial-scale=1.0\'>                <link rel=\'stylesheet\' href=\'https://stylemixthemes.com/masterstudy/academy/wp-content/plugins/masterstudy-lms-learning-management-system-api/web_view_styles/roboto/roboto.css?v=1631539533\' type=\'text/css\'><link rel=\'stylesheet\' href=\'https://stylemixthemes.com/masterstudy/academy/wp-content/plugins/masterstudy-lms-learning-management-system-api/web_view_styles/typebase.css?v=1631539533\' type=\'text/css\'></head>            <body style=\'margin: 0; padding: 0;\'><div class='
+        '><div class="vc_row wpb_row vc_row-fluid">        <div class="wpb_column vc_column_container vc_col-sm-12"><div class="vc_column-inner"><div class="wpb_wrapper"><div class="wpb_text_column wpb_content_element " ><div class="wpb_wrapper"><p>In this course, we explore anatomy and neurology at an introductory level to give us the vocabulary and theory to go deeper into how our brains and bodies work together and impact our relationships to ourselves and others..</p></div></div></div></div></div></div></div>            </body>        </html>';
+
     if (Platform.isAndroid && (androidInfo.version.sdkInt == 28))
       return _buildHtmlDesctription();
 
@@ -139,7 +143,8 @@ class _OverviewWidgetState extends State<OverviewWidget>
           child: WebView(
             javascriptMode: JavascriptMode.unrestricted,
             initialUrl:
-                'data:text/html;base64,${base64Encode(const Utf8Encoder().convert(widget.response.description))}',
+                // 'data:text/html;base64,${base64Encode(const Utf8Encoder().convert(description))}',
+                'data:text/html;base64,${base64Encode(const Utf8Encoder().convert(description))}',
             onPageFinished: (some) async {
               double height = double.parse(
                   await _descriptionWebViewController.evaluateJavascript(
@@ -155,32 +160,6 @@ class _OverviewWidgetState extends State<OverviewWidget>
           ),
         ),
       ]),
-      Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              descTextShowFlag = !descTextShowFlag;
-              if (!descTextShowFlag) {
-                widget.scrollCallback.call();
-              }
-            });
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              descTextShowFlag
-                  ? Text(
-                      localizations.getLocalization("show_less_button"),
-                      textScaleFactor: 1.0,
-                      style: TextStyle(color: mainColor),
-                    )
-                  : Text(localizations.getLocalization("show_more_button"),
-                      textScaleFactor: 1.0, style: TextStyle(color: mainColor))
-            ],
-          ),
-        ),
-      ),
     ]);
   }
 

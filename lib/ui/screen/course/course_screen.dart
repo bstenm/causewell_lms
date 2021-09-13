@@ -181,10 +181,10 @@ class _CourseScreenWidgetState extends State<_CourseScreenWidget>
       child: BlocBuilder<CourseBloc, CourseState>(
         builder: (context, state) {
           var tabLength = 2;
-          if (state is LoadedCourseState) {
-            if (state.courseDetailResponse.faq != null &&
-                state.courseDetailResponse.faq.isNotEmpty) tabLength = 3;
-          }
+          //   if (state is LoadedCourseState) {
+          //     if (state.courseDetailResponse.faq != null &&
+          //         state.courseDetailResponse.faq.isNotEmpty) tabLength = 3;
+          //   }
           return DefaultTabController(
             length: tabLength,
             child: Scaffold(
@@ -277,12 +277,12 @@ class _CourseScreenWidgetState extends State<_CourseScreenWidget>
                               Tab(
                                   text: localizations.getLocalization(
                                       "course_curriculum_tab")),
-                              if (state is LoadedCourseState)
-                                if (state.courseDetailResponse.faq != null &&
-                                    state.courseDetailResponse.faq.isNotEmpty)
-                                  Tab(
-                                      text: localizations
-                                          .getLocalization("course_faq_tab")),
+                              //   if (state is LoadedCourseState)
+                              //     if (state.courseDetailResponse.faq != null &&
+                              //         state.courseDetailResponse.faq.isNotEmpty)
+                              //       Tab(
+                              //           text: localizations
+                              //               .getLocalization("course_faq_tab")),
                             ],
                           )),
                       flexibleSpace: FlexibleSpaceBar(
@@ -472,9 +472,9 @@ class _CourseScreenWidgetState extends State<_CourseScreenWidget>
                 .jumpTo(screenHeight / kef - (kToolbarHeight * kef));
           }),
           CurriculumWidget(state.courseDetailResponse),
-          if (state.courseDetailResponse.faq != null &&
-              state.courseDetailResponse.faq.isNotEmpty)
-            FaqWidget(state.courseDetailResponse),
+          //   if (state.courseDetailResponse.faq != null &&
+          //       state.courseDetailResponse.faq.isNotEmpty)
+          //     FaqWidget(state.courseDetailResponse),
         ],
       );
     if (state is ErrorCourseState) {
