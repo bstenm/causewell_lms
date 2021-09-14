@@ -47,16 +47,18 @@ class DrawerMenu extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(capitalize(userData.displayName),
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  if (userData.displayName != null)
+                    Text(capitalize(userData.displayName),
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                        )),
                   SizedBox(height: 20.0),
-                  Text(
-                    userData.email,
-                    style: TextStyle(fontSize: 15),
-                  ),
+                  if (userData.email != null)
+                    Text(
+                      userData.email,
+                      style: TextStyle(fontSize: 15),
+                    ),
                 ],
               ),
             ],

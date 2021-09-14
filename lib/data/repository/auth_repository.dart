@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class AuthRepository {
   final userController = Get.find<UserController>();
 
-  Future authUser(String userType, String login, String password);
+  Future authUser(String login, String password);
 
   Future register(String userType, String login, String email, String password);
 
@@ -47,17 +47,11 @@ class AuthRepositoryImpl extends AuthRepository {
 
 // ADDED
   @override
-  Future authUser(String userType, String email, String password) async {
-    try {
-      final token = await provider.demoAuth();
-      final User userData = await loginUser(email, password);
-      userController.data = UserModel.fromAuthUser(userData);
-      _saveToken(token);
-    } on FirebaseAuthException catch (e) {
-      handleFirebaseAuthError(e);
-    } catch (e) {
-      handleUnexpectedError(e);
-    }
+  Future authUser(String email, String password) async {
+    final token = await provider.demoAuth();
+    final User userData = await loginUser(email.trim(), password.trim());
+    userController.data = UserModel.fromAuthUser(userData);
+    _saveToken(token);
   }
 
 // REMOVED

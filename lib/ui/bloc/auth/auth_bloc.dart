@@ -66,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> _mapSignInEventToState(event) async* {
     yield LoadingAuthState();
     try {
-      await _repository.authUser(event.userType, event.login, event.password);
+      await _repository.authUser(event.login, event.password);
       yield SuccessAuthState();
     } catch (error, stacktrace) {
       print('>>>>>>>>>>>>>>>>>>>> $error');
