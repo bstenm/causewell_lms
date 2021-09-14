@@ -47,48 +47,48 @@ class _OverviewWidgetState extends State<OverviewWidget>
             //Description
             _buildDescription(),
             //Meta
-            Column(
-              children: widget.response.meta.map((value) {
-                return Column(
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                MetaIcon(
-                                  value.type,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    value.label,
-                                    textScaleFactor: 1.0,
-                                  ),
-                                )
-                              ],
-                            ),
-                            Text(
-                              value.text,
-                              textScaleFactor: 1.0,
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 2,
-                      color: Colors.black.withOpacity(0.1),
-                    ),
-                  ],
-                );
-              }).toList(),
-            ),
+            // Column(
+            //   children: widget.response.meta.map((value) {
+            //     return Column(
+            //       children: <Widget>[
+            //         InkWell(
+            //           onTap: () {},
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+            //             child: Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //               children: <Widget>[
+            //                 Row(
+            //                   children: <Widget>[
+            //                     MetaIcon(
+            //                       value.type,
+            //                     ),
+            //                     Padding(
+            //                       padding: const EdgeInsets.only(left: 8.0),
+            //                       child: Text(
+            //                         value.label,
+            //                         textScaleFactor: 1.0,
+            //                       ),
+            //                     )
+            //                   ],
+            //                 ),
+            //                 Text(
+            //                   value.text,
+            //                   textScaleFactor: 1.0,
+            //                   style: TextStyle(fontWeight: FontWeight.bold),
+            //                 )
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //         Container(
+            //           height: 2,
+            //           color: Colors.black.withOpacity(0.1),
+            //         ),
+            //       ],
+            //     );
+            //   }).toList(),
+            // ),
             _buildAnnoncement(widget.response.announcement),
             _buildReviewsStat(widget.response.rating),
             Padding(
@@ -306,8 +306,8 @@ class _OverviewWidgetState extends State<OverviewWidget>
   }
 
   _buildReviewsStat(RatingBean rating) {
-    var total = rating.total;
-    var onePercent = total / 100;
+    // var total = rating.total;
+    // var onePercent = total / 100;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -329,20 +329,20 @@ class _OverviewWidgetState extends State<OverviewWidget>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                _buildStatRow(
-                    "5", rating.details.five / onePercent, rating.details.five),
-                _buildStatRow(
-                    "4", rating.details.four / onePercent, rating.details.four),
-                _buildStatRow("3", rating.details.three / onePercent,
-                    rating.details.three),
-                _buildStatRow(
-                    "2", rating.details.two / onePercent, rating.details.two),
-                _buildStatRow(
-                    "1", rating.details.one / onePercent, rating.details.one),
-              ],
-            ),
+            // Column(
+            //   children: <Widget>[
+            //     _buildStatRow(
+            //         "5", rating.details.five / onePercent, rating.details.five),
+            //     _buildStatRow(
+            //         "4", rating.details.four / onePercent, rating.details.four),
+            //     _buildStatRow("3", rating.details.three / onePercent,
+            //         rating.details.three),
+            //     _buildStatRow(
+            //         "2", rating.details.two / onePercent, rating.details.two),
+            //     _buildStatRow(
+            //         "1", rating.details.one / onePercent, rating.details.one),
+            //   ],
+            // ),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[

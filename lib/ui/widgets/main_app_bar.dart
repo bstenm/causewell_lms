@@ -31,7 +31,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
             textScaleFactor: 1.0,
             style: TextStyle(color: Color(0xFFF1595C)),
           ),
-          retry != null ? retry : Container(),
+          //   retry != null ? retry : Container(),
         ],
       ),
       iconTheme: IconThemeData(color: Color(0xFF8AC640)),

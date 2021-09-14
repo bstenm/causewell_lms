@@ -228,6 +228,28 @@ class UserApiProvider {
   }
 
   Future<CourseDetailResponse> getCourse(int id) async {
+    final List<Map<String, dynamic>> curriculum = [];
+    var i = 1;
+    final QuerySnapshot snapshot1 = await FirebaseFirestore.instance
+        .collection('_courses')
+        .where('id', isEqualTo: id)
+        .get();
+    var courseData = snapshot1.docs[0].data();
+    courseData['curriculum'].forEach((d) => {
+          curriculum.add({
+            "label": d["title"],
+            "type": "section",
+            "view": "Section ${i++}",
+            "is_favorite": false,
+          })
+        });
+    courseData['curriculum'] = curriculum;
+    courseData['rating'] = {"total": 400, "average": 4};
+    print('>>>>>>>>>>>>>>>>>>>>> GET COURSE $courseData');
+    return CourseDetailResponse.fromJson(courseData);
+  }
+
+  Future<CourseDetailResponse> _getCourse(int id) async {
     Response response = await _dio.get(apiEndpoint + "course",
         queryParameters: {"id": id},
         options: Options(

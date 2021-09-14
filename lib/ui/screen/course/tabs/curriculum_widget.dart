@@ -8,6 +8,8 @@ import 'package:causewell/ui/screen/text_lesson/text_lesson_screen.dart';
 
 import '../../../../main.dart';
 
+String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
 class CurriculumWidget extends StatefulWidget {
   final CourseDetailResponse response;
 
@@ -49,7 +51,7 @@ class _CurriculumWidgetState extends State<CurriculumWidget>
             style: TextStyle(color: HexColor.fromHex("#AAAAAA")),
           ),
           Text(
-            curriculumBean.label,
+            capitalize(curriculumBean.label),
             textScaleFactor: 1.0,
             style: TextStyle(
                 color: HexColor.fromHex("#273044"),

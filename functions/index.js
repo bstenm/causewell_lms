@@ -46,10 +46,21 @@ exports.googleSheetToFirestore = functions.https.onRequest(async (req, res) => {
 
     const sheet = doc.sheetsByIndex[0];
     const rows = await sheet.getRows();
+    let courses = [];
 
     rows.forEach(async (row) => {
       let data = {};
-
+      const lesson = {
+        title: row['lesson'],
+        author: row['author'],
+      };
+      let index = courses.findIndex((e) => e.title === row['course']);
+      if (index >= 0) {
+        if (lesson.title) courses[index]['curriculum'].push(lesson);
+        return;
+      }
+      data['curriculum'] = [];
+      data['curriculum'].push(lesson);
       for (let key in row) {
         if (key.startsWith('_')) continue;
         if (
@@ -58,19 +69,25 @@ exports.googleSheetToFirestore = functions.https.onRequest(async (req, res) => {
           row[key] !== undefined &&
           row[key] !== 'undefined'
         ) {
-          let columnCase = key === 'lesson' ? 'title' : key.toLowerCase();
-          data[columnCase] = row[key];
+          if (key !== 'lesson' && key !== 'author') {
+            let columnCase = key === 'course' ? 'title' : key.toLowerCase();
+            data[columnCase] = row[key];
+          }
         }
       }
 
-      console.log(
-        '111111111111111111111111111111111111111111111111111111111111111111111111'
-      );
-      await db.collection('lessons').add(data);
-      console.log(
-        '2222222222222222222222222222222222222222222222222222222222222222222222222'
-      );
+      courses.push(data);
     });
+
+    console.log(
+      '1>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.============================================='
+    );
+    courses.forEach(async (d) => {
+      // await db.collection('_courses').add(d);
+    });
+    console.log(
+      '2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.==========================================='
+    );
 
     res.send('Records have been successfully added to firestore');
   } catch (e) {

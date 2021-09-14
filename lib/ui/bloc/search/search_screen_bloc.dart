@@ -32,8 +32,7 @@ class SearchScreenBloc extends Bloc<SearchScreenEvent, SearchScreenState> {
     if (_popularSearches == null || _newCourses == null) {
       yield InitialSearchScreenState();
       try {
-        _newCourses =
-            (await _coursesRepository.getCourses(sort: Sort.date_low)).courses;
+        _newCourses = (await _coursesRepository.getAllCourses()).courses;
         _popularSearches =
             (await _coursesRepository.getPopularSearches()).searches;
         yield LoadedSearchScreenState(_newCourses, _popularSearches);

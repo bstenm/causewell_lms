@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:causewell/auth/config/config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -201,9 +202,10 @@ class _CourseScreenWidgetState extends State<_CourseScreenWidget>
                         state.courseDetailResponse.categories_object.isNotEmpty)
                       categories =
                           state.courseDetailResponse.categories_object[0].name;
-                    ratingAverage =
-                        state.courseDetailResponse.rating.average.toDouble();
-                    ratingTotal = state.courseDetailResponse.rating.total;
+                    ratingAverage = 0.0;
+                    // state.courseDetailResponse.rating.average.toDouble();
+                    ratingTotal = 0.0;
+                    // ratingTotal = state.courseDetailResponse.rating.total;
                   } else {
                     if (widget.coursesBean.categories_object != null &&
                         widget.coursesBean.categories_object.isNotEmpty) {
@@ -375,11 +377,11 @@ class _CourseScreenWidgetState extends State<_CourseScreenWidget>
                                               },
                                               child: CircleAvatar(
                                                   backgroundImage: NetworkImage(
-                                                (state is LoadedCourseState)
-                                                    ? state.courseDetailResponse
-                                                        .author.avatar_url
-                                                    : "",
-                                              )),
+                                                      // (state is LoadedCourseState)
+                                                      //     ? state.courseDetailResponse
+                                                      //         .author.avatar_url
+                                                      //     : "",
+                                                      avatarPlaceholder)),
                                             )
                                           ],
                                         ),
@@ -497,7 +499,8 @@ class _CourseScreenWidgetState extends State<_CourseScreenWidget>
   }
 
   _buildBottom(CourseState state) {
-    if (state is LoadedCourseState && state.courseDetailResponse.has_access) {
+    // if (state is LoadedCourseState && state.courseDetailResponse.has_access) {
+    if (state is LoadedCourseState) {
       return Container(
           decoration: BoxDecoration(
             color: HexColor.fromHex("#F6F6F6"),
@@ -684,8 +687,8 @@ class _CourseScreenWidgetState extends State<_CourseScreenWidget>
             state.courseDetailResponse.id.toString(),
             widget.coursesBean.title,
             widget.coursesBean.images.small,
-            state.courseDetailResponse.author.avatar_url,
-            state.courseDetailResponse.author.login,
+            state.courseDetailResponse.author?.avatar_url,
+            state.courseDetailResponse.author?.login,
             "0",
             "1",
             "",

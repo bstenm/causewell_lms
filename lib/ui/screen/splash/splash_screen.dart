@@ -112,7 +112,7 @@ class SplashWidgetState extends State<SplashWidget> {
           Padding(
             padding: EdgeInsets.only(top: 20.0, bottom: 5.0),
             child: Text(
-              postsCount,
+              '5',
               textScaleFactor: 1.0,
               style: TextStyle(color: mainColor, fontSize: 40.0),
             ),
