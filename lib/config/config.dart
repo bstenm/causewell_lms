@@ -1,4 +1,4 @@
-final String appTitle = 'causewell';
+final String appTitle = 'funtellectual';
 final String appLogo = 'assets/images/facebook-logo.svg';
 const String defaultLang = 'en';
 const List<String> locales = ['en', 'es', 'fr'];

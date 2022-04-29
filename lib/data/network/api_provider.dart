@@ -31,7 +31,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserApiProvider {
   final List<Map<String, dynamic>> _allCourses = [];
   static const BASE_URL = "https://stylemixthemes.com/masterstudy/academy";
-  static const String apiEndpoint = BASE_URL + "/wp-json/ms_lms/v1/";
+  static const String apiEndpoint = BASE_URL + "/wp-json/ms_lms/v2/";
   final Dio _dio;
   static final FirebaseFirestore _store = FirebaseFirestore.instance;
   static final CollectionReference _categories =
